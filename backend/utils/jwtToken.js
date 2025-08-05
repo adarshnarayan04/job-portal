@@ -5,7 +5,9 @@ export const sendToken = (user, statusCode, res, message) => {
       Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ),
     httpOnly: true, // Set httpOnly to true
-    sameSite : 'strict'
+    sameSite : 'strict',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+    secure: process.env.NODE_ENV === 'production' ? true : false
   };
 
   res.status(statusCode).cookie("token", token, options).json({
